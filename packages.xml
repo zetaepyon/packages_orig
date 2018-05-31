@@ -135,6 +135,19 @@
     </files>
   </package>
   <package>
+    <name>packets</name>
+    <version>1.0.0.0</version>
+    <type>library</type>
+    <dependencies>
+      <dependency>pack</dependency>
+    </dependencies>
+    <files>
+      <file size="9696">packets/fields.lua</file>
+      <file size="173">packets/manifest.xml</file>
+      <file size="2234">packets/packets.lua</file>
+    </files>
+  </package>
+  <package>
     <name>player</name>
     <version>1.0.0.0</version>
     <type>library</type>
@@ -158,7 +171,7 @@
     </dependencies>
     <files>
       <file size="222">player_service/manifest.xml</file>
-      <file size="14284">player_service/player_service.lua</file>
+      <file size="14257">player_service/player_service.lua</file>
     </files>
   </package>
   <package>
