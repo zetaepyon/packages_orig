@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<packages>
+  <package>
+    <name>enternity</name>
+    <version>1</version>
+    <type>addon</type>
+    <files>
+      <file size="2872">enternity/enternity.lua</file>
+      <file size="267">enternity/manifest.xml</file>
+    </files>
+  </package>
+  <package>
+    <name>enumerable</name>
+    <version>2.1.1.0</version>
+    <type>library</type>
+    <files>
+      <file size="17849">enumerable/enumerable.lua</file>
+      <file size="124">enumerable/manifest.xml</file>
+    </files>
+  </package>
+  <package>
+    <name>equipment</name>
+    <version>0</version>
+    <type>library</type>
+    <dependencies>
+      <dependency>enumerable</dependency>
+      <dependency>resources</dependency>
+    </dependencies>
+    <files>
+      <file size="1201">equipment/equipment.lua</file>
+      <file size="348">equipment/manifest.xml</file>
+    </files>
+  </package>
+  <package>
+    <name>evaluate</name>
+    <version>1</version>
+    <type>addon</type>
+    <dependencies>
+      <dependency>reading</dependency>
+      <dependency>resources_service</dependency>
+      <dependency>inventory_service</dependency>
+      <dependency>equipment_service</dependency>
+      <dependency>player_service</dependency>
+      <dependency>monster_array_service</dependency>
+    </dependencies>
+    <files>
+      <file size="747">evaluate/evaluate.lua</file>
+      <file size="545">evaluate/manifest.xml</file>
+    </files>
+  </package>
+  <package>
+    <name>items</name>
+    <version>0</version>
+    <type>library</type>
+    <dependencies>
+      <dependency>enumerable</dependency>
+      <dependency>resources</dependency>
+    </dependencies>
+    <files>
+      <file size="2596">items/items.lua</file>
+      <file size="344">items/manifest.xml</file>
+    </files>
+  </package>
+  <package>
+    <name>items_service</name>
+    <version>0</version>
+    <type>service</type>
+    <dependencies>
+      <dependency>pack</dependency>
+      <dependency>resources</dependency>
+    </dependencies>
+    <files>
+      <file size="3712">items_service/items_service.lua</file>
+      <file size="344">items_service/manifest.xml</file>
+    </files>
+  </package>
+  <package>
+    <name>lists</name>
+    <version>1.0.1.0</version>
+    <type>library</type>
+    <dependencies>
+      <dependency>enumerable</dependency>
+    </dependencies>
+    <files>
+      <file size="4322">lists/lists.lua</file>
+      <file size="177">lists/manifest.xml</file>
+    </files>
+  </package>
+  <package>
+    <name>ltn12</name>
+    <version>3.0rc1</version>
+    <type>library</type>
+    <files>
+      <file size="1100">ltn12/LICENSE</file>
+      <file size="8629">ltn12/ltn12.lua</file>
+      <file size="98">ltn12/manifest.xml</file>
+    </files>
+  </package>
+  <package>
+    <name>mime</name>
+    <version>3.0rc1</version>
+    <type>library</type>
+    <dependencies>
+      <dependency>ltn12</dependency>
+    </dependencies>
+    <files>
+      <file size="1100">mime/LICENSE</file>
+      <file size="170">mime/manifest.xml</file>
+      <file size="2576">mime/mime.lua</file>
+      <file size="9216">mime/mime/core.dll</file>
+    </files>
+  </package>
+  <package>
+    <name>monster_array_service</name>
+    <version>0</version>
+    <type>service</type>
+    <dependencies>
+      <dependency>pack</dependency>
+      <dependency>resources_service</dependency>
+      <dependency>reading</dependency>
+      <dependency>sharing</dependency>
+    </dependencies>
+    <files>
+      <file size="436">monster_array_service/manifest.xml</file>
+      <file size="451">monster_array_service/monster_array_service.lua</file>
+    </files>
+  </package>
+  <package>
+    <name>pack</name>
+    <version>1.0.0.0</version>
+    <type>library</type>
+    <files>
+      <file size="116">pack/manifest.xml</file>
+      <file size="7161">pack/pack.lua</file>
+    </files>
+  </package>
+  <package>
+    <name>player</name>
+    <version>1.0.0.0</version>
+    <type>library</type>
+    <dependencies>
+      <dependency>enumerable</dependency>
+      <dependency>resources</dependency>
+      <dependency>player_service</dependency>
+    </dependencies>
+    <files>
+      <file size="274">player/manifest.xml</file>
+      <file size="3133">player/player.lua</file>
+    </files>
+  </package>
+  <package>
+    <name>player_service</name>
+    <version>1.0.0.0</version>
+    <type>service</type>
+    <dependencies>
+      <dependency>pack</dependency>
+      <dependency>resources</dependency>
+    </dependencies>
+    <files>
+      <file size="222">player_service/manifest.xml</file>
+      <file size="14284">player_service/player_service.lua</file>
+    </files>
+  </package>
+  <package>
+    <name>reading</name>
+    <version>0</version>
+    <type>library</type>
+    <files>
+      <file size="263">reading/manifest.xml</file>
+      <file size="5990">reading/reading.lua</file>
+    </files>
+  </package>
+  <package>
+    <name>resources</name>
+    <version>1.0.0.0</version>
+    <type>library</type>
+    <dependencies>
+      <dependency>resources_service</dependency>
+      <dependency>enumerable</dependency>
+    </dependencies>
+    <files>
+      <file size="229">resources/manifest.xml</file>
+      <file size="1758">resources/resources.lua</file>
+    </files>
+  </package>
+  <package>
+    <name>resources_service</name>
+    <version>0</version>
+    <type>service</type>
+    <dependencies>
+      <dependency>sharing</dependency>
+    </dependencies>
+    <files>
+      <file size="311">resources_service/manifest.xml</file>
+      <file size="884">resources_service/resources_service.lua</file>
+      <file size="18306">resources_service/res/ability_recasts.lua</file>
+      <file size="75069">resources_service/res/action_messages.lua</file>
+      <file size="113005">resources_service/res/augments.lua</file>
+      <file size="154078">resources_service/res/auto_translates.lua</file>
+      <file size="2436">resources_service/res/bags.lua</file>
+      <file size="64122">resources_service/res/buffs.lua</file>
+      <file size="2057">resources_service/res/chat.lua</file>
+      <file size="1842">resources_service/res/check_ratings.lua</file>
+      <file size="1979">resources_service/res/days.lua</file>
+      <file size="1951">resources_service/res/elements.lua</file>
+      <file size="4186">resources_service/res/emotes.lua</file>
+      <file size="1872">resources_service/res/encumbrance.lua</file>
+      <file size="4210908">resources_service/res/items.lua</file>
+      <file size="3696564">resources_service/res/item_descriptions.lua</file>
+      <file size="3229">resources_service/res/jobs.lua</file>
+      <file size="108762">resources_service/res/job_abilities.lua</file>
+      <file size="73978">resources_service/res/job_points.lua</file>
+      <file size="13505">resources_service/res/job_traits.lua</file>
+      <file size="323398">resources_service/res/key_items.lua</file>
+      <file size="73934">resources_service/res/merit_points.lua</file>
+      <file size="329987">resources_service/res/monster_abilities.lua</file>
+      <file size="25335">resources_service/res/monstrosity.lua</file>
+      <file size="2214">resources_service/res/moon_phases.lua</file>
+      <file size="3043">resources_service/res/mounts.lua</file>
+      <file size="2818">resources_service/res/races.lua</file>
+      <file size="5106">resources_service/res/regions.lua</file>
+      <file size="2110">resources_service/res/servers.lua</file>
+      <file size="4801">resources_service/res/skills.lua</file>
+      <file size="2039">resources_service/res/slots.lua</file>
+      <file size="249519">resources_service/res/spells.lua</file>
+      <file size="3198">resources_service/res/statuses.lua</file>
+      <file size="1906">resources_service/res/synth_ranks.lua</file>
+      <file size="82326">resources_service/res/titles.lua</file>
+      <file size="45926">resources_service/res/weapon_skills.lua</file>
+      <file size="2935">resources_service/res/weather.lua</file>
+      <file size="26837">resources_service/res/zones.lua</file>
+    </files>
+  </package>
+  <package>
+    <name>sets</name>
+    <version>1.0.0.2</version>
+    <type>library</type>
+    <dependencies>
+      <dependency>enumerable</dependency>
+    </dependencies>
+    <files>
+      <file size="176">sets/manifest.xml</file>
+      <file size="4183">sets/sets.lua</file>
+    </files>
+  </package>
+  <package>
+    <name>sharing</name>
+    <version>0</version>
+    <type>library</type>
+    <files>
+      <file size="263">sharing/manifest.xml</file>
+      <file size="3172">sharing/sharing.lua</file>
+    </files>
+  </package>
+  <package>
+    <name>socket</name>
+    <version>3.0rc1</version>
+    <type>library</type>
+    <dependencies>
+      <dependency>ltn12</dependency>
+      <dependency>mime</dependency>
+    </dependencies>
+    <files>
+      <file size="1100">socket/LICENSE</file>
+      <file size="207">socket/manifest.xml</file>
+      <file size="4600">socket/socket.lua</file>
+      <file size="44032">socket/socket/core.dll</file>
+      <file size="9527">socket/socket/ftp.lua</file>
+      <file size="3801">socket/socket/headers.lua</file>
+      <file size="12683">socket/socket/http.lua</file>
+      <file size="8329">socket/socket/smtp.lua</file>
+      <file size="3737">socket/socket/tp.lua</file>
+      <file size="11343">socket/socket/url.lua</file>
+    </files>
+  </package>
+  <package>
+    <name>terminate</name>
+    <version>1</version>
+    <type>addon</type>
+    <files>
+      <file size="115">terminate/manifest.xml</file>
+      <file size="294">terminate/terminate.lua</file>
+    </files>
+  </package>
+  <package>
+    <name>timestamp</name>
+    <version>1</version>
+    <type>addon</type>
+    <files>
+      <file size="265">timestamp/manifest.xml</file>
+      <file size="1900">timestamp/timestamp.lua</file>
+    </files>
+  </package>
+</packages>
