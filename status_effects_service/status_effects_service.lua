@@ -33,17 +33,17 @@ function symetric_difference(l1, l2)
             break
         end
         if (l1[k1] == nil) then
-            gain[#gain+1] = l2[k2];     
+            gain[#gain+1] = l2[k2]    
             k2 = k2 + 1    
         elseif (l2[k2] == nil) then
-            lost[#lost+1] = l1[k1];    
+            lost[#lost+1] = l1[k1] 
             k1 = k1 + 1         
         elseif (l1[k1].id < l2[k2].id) then
-            lost[#lost+1] = l1[k1];
+            lost[#lost+1] = l1[k1]
             k1 = k1 + 1        
         else 
             if (l2[k2].id < l1[k1].id) then
-                gain[#gain+1] = l2[k2];            
+                gain[#gain+1] = l2[k2]        
             else 
                 k1 = k1 + 1
             end
@@ -59,23 +59,23 @@ incoming[0x063] = function(p)
     local temp = {}
     local packet_type = p.data:unpack('H',0x01)
     if packet_type == 9 then
-        for i=1,32 do
-            local buff_id = p.data:unpack('H',3+2*i)
+        for i=1, 32 do
+            local buff_id = p.data:unpack('H', 3+2 * i)
             if buff_id == 0 or buff_id == 255 then 
                 temp[i] = nil
             else
                 temp[i] = {
                     id = buff_id,
-                    timestamp = ((p.data:unpack('I',0x41+4*i) / 60) + 501079520 + 1009810800) - os.time()
+                    timestamp = ((p.data:unpack('I', 0x41 + 4 * i) / 60) + 501079520 + 1009810800) - os.time()
                 }
             end
         end
         
         local gain, lost = symetric_difference(status_effects.data.player, temp)
-        for _,status_effect in pairs(gain) do
+        for _, status_effect in pairs(gain) do
             status_effects_events.gain:trigger(status_effect.id, status_effect.timestamp)
         end
-        for _,status_effect in pairs(lost) do
+        for _, status_effect in pairs(lost) do
             status_effects_events.lost:trigger(status_effect.id)
         end
         status_effects.data.player = temp
@@ -87,7 +87,7 @@ packets.incoming.register(0x076, function(p)
         for i = 0, 4 do
             v = p.party_members[i]
             if v.id ~= 0 then
-                data[i+1] = {}
+                data[i + 1] = {}
                 for pos = 0, 0x1F do
                     local base_value = v.status_effects[pos]
                     local mask_index = bit.rshift((pos), 2) 
