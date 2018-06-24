@@ -2,6 +2,11 @@ local structs = require('structs')
 
 local struct = structs.struct
 
+local multiple = function(info)
+    info.multiple = true
+    return info
+end
+
 local tag = structs.tag
 local string = structs.string
 local data = structs.data
@@ -49,7 +54,7 @@ local ls_name = encoded(0x10, 6, '\x00abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOP
 local item_inscription = encoded(0x0C, 6, '\x000123456798ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz{')
 local ls_name_extdata = encoded(0x0C, 6, '`abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00')
 
-local stats = struct {
+local stats = struct({
     str                 = {0x00, int16},
     dex                 = {0x02, int16},
     vit                 = {0x04, int16},
@@ -57,9 +62,9 @@ local stats = struct {
     int                 = {0x08, int16},
     mnd                 = {0x0A, int16},
     chr                 = {0x0C, int16},
-}
+})
 
-local model = struct {
+local model = struct({
     face                = {0x00, uint8},
     race                = {0x01, uint8},
     head                = {0x02, uint16},
@@ -70,42 +75,48 @@ local model = struct {
     main                = {0x0C, uint16},
     sub                 = {0x0E, uint16},
     range               = {0x10, uint16},
-}
+})
 
-local resistances = struct {
-    fire                = {0x34, uint16},
-    wind                = {0x36, uint16},
-    lightning           = {0x38, uint16},
-    light               = {0x3A, uint16},
-    ice                 = {0x3C, uint16},
-    earth               = {0x3E, uint16},
-    water               = {0x40, uint16},
-    dark                = {0x42, uint16},
-}
+local resistances = struct({
+    fire                = {0x0, uint16},
+    wind                = {0x2, uint16},
+    lightning           = {0x4, uint16},
+    light               = {0x6, uint16},
+    ice                 = {0x8, uint16},
+    earth               = {0xA, uint16},
+    water               = {0xC, uint16},
+    dark                = {0xE, uint16},
+})
 
-local combat_skill = struct {
+local combat_skill = struct({
     level               = {0x00, bit(uint16, 15), offset=0},
     capped              = {0x00, boolbit(uint16), offset=15},
-}
+})
 
-local crafting_skill = struct {
+local crafting_skill = struct({
     level               = {0x00, bit(uint16, 5), offset=0},
     rank_id             = {0x00, bit(uint16, 10), offset=5},
     capped              = {0x00, boolbit(uint16), offset=15},
-}
+})
 
-local party_status_effects   = struct {
+local party_status_effects = struct({
     id                  = {0x00, entity},
     index               = {0x04, entity_index},
     status_effect_mask  = {0x08, data(8)},
     status_effects      = {0x10, status_effect[0x20]},
-}
+})
 
-local unity = struct {
+local unity = struct({
     -- 0=None, 1=Pieuje, 2=Ayame, 3=Invincible Shield, 4=Apururu, 5=Maat, 6=Aldo, 7=Jakoh Wahcondalo, 8=Naja Salaheem, 9=Flavira
     id                  = {0x00, bit(uint32, 5), offset=0},
     points              = {0x00, bit(uint32, 16), offset=10},
-}
+})
+
+local job_point_info = struct({
+    capacity_points     = {0x00, uint16},
+    job_points          = {0x02, uint16},
+    job_points_spent    = {0x04, uint16},
+})
 
 local types = {
     incoming = {},
@@ -113,7 +124,7 @@ local types = {
 }
 
 -- Zone update
-types.incoming[0x00A] = struct {
+types.incoming[0x00A] = struct({
     player_id           = {0x00, entity},
     player_index        = {0x04, entity_index},
     heading             = {0x07, uint8},
@@ -148,14 +159,14 @@ types.incoming[0x00A] = struct {
     stats_bonus         = {0xD6, stats},
     max_hp              = {0xE4, uint32},
     max_mp              = {0xE8, uint32},
-}
+})
 
 -- Zone Response
-types.incoming[0x00B] = struct {
+types.incoming[0x00B] = struct({
     type                = {0x00, uint8},
     ip                  = {0x04, ip},
     port                = {0x08, uint16},
-}
+})
 
 -- PC Update
     -- The flags in this byte are complicated and may not strictly be flags.
@@ -202,7 +213,7 @@ types.incoming[0x00B] = struct {
 
     -- Byte 0x36
     -- 0x20 = Ballista
-types.incoming[0x00D] = struct {
+types.incoming[0x00D] = struct({
     player_id           = {0x00, entity},
     player_index        = {0x04, entity_index},
     update_position     = {0x06, boolbit(uint8), offset=0}, -- Position, Rotation, Target, Speed
@@ -228,10 +239,10 @@ types.incoming[0x00D] = struct {
     face_flags          = {0x3F, uint8}, -- 0, 3, 4 or 8
     model               = {0x44, model},
     name                = {0x56, string()},
-}
+})
 
 -- Job Info
-types.incoming[0x01B] = struct {
+types.incoming[0x01B] = struct({
     main_job_id         = {0x04, job},
     -- 09: Flags or main job level?
     -- 0A: Flags or sub job level?
@@ -245,7 +256,7 @@ types.incoming[0x01B] = struct {
     job_levels          = {0x40, uint8[0x18], lookup='jobs'},
     monster_level       = {0x5B, uint8},
     encumbrance_flags   = {0x5C, uint32}, -- [legs, hands, body, head, ammo, range, sub, main,] [back, right_ring, left_ring, right_ear, left_ear, waist, neck, feet] [HP, CHR, MND, INT, AGI, VIT, DEX, STR,] [X X X X X X X MP]
-}
+})
 
 -- Inventory Count
 -- It is unclear why there are two representations of the size for this.
@@ -254,38 +265,38 @@ types.incoming[0x01B] = struct {
 -- may not be max size/used size chars as I initially assumed. Adding them as shorts
 -- for now.
 -- There appears to be space for another 8 bags.
-types.incoming[0x01C] = struct {
+types.incoming[0x01C] = struct({
     size                = {0x00, uint8[13], lookup='bags'},
     -- These "dupe" sizes are set to 0 if the inventory disabled.
     -- storage: The accumulated storage from all items (uncapped) -1
     -- wardrobe 3/4: This is not set to 0 despite being disabled for whatever reason
     other_size          = {0x10, uint16[13], lookup='bags'},
-}
+})
 
 -- Finish Inventory
-types.incoming[0x01D] = struct {
+types.incoming[0x01D] = struct({
     flag                = {0x00, uint8, const=0x01},
-}
+})
 
 -- Modify Inventory
-types.incoming[0x01E] = struct {
+types.incoming[0x01E] = struct({
     count               = {0x00, uint32},
     bag                 = {0x04, bag},
     bag_index           = {0x05, uint8},
     status              = {0x06, item_status},
-}
+})
 
 -- Item Assign
-types.incoming[0x01F] = struct {
+types.incoming[0x01F] = struct({
     count               = {0x00, uint32},
     item_id             = {0x04, item},
     bag                 = {0x06, bag},
     bag_index           = {0x07, uint8},
     status              = {0x08, item_status},
-}
+})
 
 -- Item Updates
-types.incoming[0x020] = struct {
+types.incoming[0x020] = struct({
     count               = {0x00, uint32},
     bazaar              = {0x04, uint32},
     item_id             = {0x08, item},
@@ -293,7 +304,7 @@ types.incoming[0x020] = struct {
     bag_index           = {0x0B, uint8},
     status              = {0x0C, item_status},
     extdata             = {0x0D, data(24)},
-}
+})
 
 -- Player update
 -- Buff IDs go can over 0xFF, but in the packet each buff only takes up one byte.
@@ -388,7 +399,7 @@ types.incoming[0x020] = struct {
     -- 0x00000001 -- Seems to indicate wardrobe 3
     -- 0x00000002 -- Seems to indicate wardrobe 4
 ]]
-types.incoming[0x037] = struct {
+types.incoming[0x037] = struct({
     status_effects      = {0x00, status_effect[0x20]},
     player_id           = {0x20, entity},
     hp_percent          = {0x26, percent},
@@ -404,17 +415,17 @@ types.incoming[0x037] = struct {
     timestamp           = {0x3C, uint32}, -- This is 32 years off of JST at the time the packet is sent.
     status_effect_mask  = {0x48, data(8)},
     indi_status_effect  = {0x54, indi},
-}
+})
 
 -- Equipment
-types.incoming[0x050] = struct {
+types.incoming[0x050] = struct({
     bag_index           = {0x00, uint8},
     slot_id             = {0x01, slot},
     bag_id              = {0x02, bag},
-}
+})
 
 -- Char Stats
-types.incoming[0x061] = struct {
+types.incoming[0x061] = struct({
     hp_max              = {0x00, uint32},
     mp_max              = {0x04, uint32},
     main_job_id         = {0x08, job},
@@ -438,30 +449,66 @@ types.incoming[0x061] = struct {
     item_level_over_99  = {0x51, uint8},
     item_level_main     = {0x52, uint8},
     unity               = {0x54, unity},
-}
+})
 
 -- Skills Update
-types.incoming[0x062] = struct {
+types.incoming[0x062] = struct({
     combat_skills       = {0x7C, combat_skill[0x30], lookup='skills', lookup_index=0x00},
     crafting_skills     = {0xDC, crafting_skill[0x0A], lookup='skills', lookup_index=0x30},
-}
+})
 
-types.incoming[0x076] = struct {
+-- Set Update
+-- This packet likely varies based on jobs, but currently I only have it worked out for Monstrosity.
+-- It also appears in three chunks, so it's double-varying.
+-- Packet was expanded in the March 2014 update and now includes a fourth packet, which contains CP values.
+types.incoming[0x063] = multiple({
+    base = struct({
+        type            = {0x00, uint16},
+    }),
+    lookups = {'type'},
+    [0x02] = struct({
+        flags           = {0x02, data(7)}, -- The 3rd bit of the last byte is the flag that indicates whether or not you are xp capped (blue levels)
+    }),
+    [0x03] = struct({
+        flags1          = {0x02, data(2)}, -- Consistently D8 for me
+        flags2          = {0x04, data(2)}, -- Vary when I change species
+        flags3          = {0x06, data(2)}, -- Consistent across species
+        monstrosity_rank= {0x08, uint8}, -- 00 = Mon, 01 = NM, 02 = HM
+        infamy          = {0x0E, uint16},
+        instinct_flags  = {0x18, data(0x40)}, -- Bitpacked 2-bit values. 0 = no instincts from that species, 1 == first instinct, 2 == first and second instinct, 3 == first, second, and third instinct.
+        monster_levels  = {0x58, data(0x80)}, -- Mapped onto the item ID for these creatures. (00 doesn't exist, 01 is rabbit, 02 is behemoth, etc.)
+    }),
+    [0x04] = struct({
+        slime_level     = {0x82, uint8},
+        spriggan_level  = {0x83, uint8},
+        instinct_flags  = {0x84, data(0x0C)}, -- Contains job/race instincts from the 0x03 set. Has 8 unused bytes. This is a 1:1 mapping.
+        variants_flags  = {0x90, data(0x20)}, -- Does not show normal monsters, only variants. Bit is 1 if the variant is owned. Length is an estimation including the possible padding.
+    }),
+    [0x05] = struct({
+        job_points      = {0x08, job_point_info[0x18], lookup='jobs'}
+    }),
+    [0x09] = struct({
+        status_effects  = {0x04, uint16[0x20]},
+        durations       = {0x44, time[0x20]},
+    }),
+})
+
+types.incoming[0x076] = struct({
     party_members       = {0x00, party_status_effects[5]},
-}
+})
 
 -- LS Message
-types.incoming[0x0CC] = struct {
+types.incoming[0x0CC] = struct({
     flags               = {0x00, flags},
     message             = {0x04, string(0x80)},
     timestamp           = {0x84, time},
     player_name         = {0x88, pc_name},
     permissions         = {0x94, data(4)},
     linkshell_name      = {0x98, ls_name},
-}
+})
 
 -- Char Update
-types.incoming[0x0DF] = struct {
+types.incoming[0x0DF] = struct({
     id                  = {0x00, entity},
     hp                  = {0x04, uint32},
     mp                  = {0x08, uint32},
@@ -473,10 +520,10 @@ types.incoming[0x0DF] = struct {
     main_job_level      = {0x1D, uint8},
     sub_job_id          = {0x1E, job},
     sub_job_level       = {0x1F, uint8},
-}
+})
 
 -- Char Info
-types.incoming[0x0E2] = struct {
+types.incoming[0x0E2] = struct({
     id                  = {0x00, entity},
     hp                  = {0x04, uint32},
     mp                  = {0x08, uint32},
@@ -485,6 +532,6 @@ types.incoming[0x0E2] = struct {
     hp_percent          = {0x19, percent},
     mp_percent          = {0x1A, percent},
     name                = {0x1E, string()},
-}
+})
 
 return types

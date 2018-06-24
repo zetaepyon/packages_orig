@@ -1,6 +1,6 @@
-local packets = require('packets')
-local memory = require('memory')
 local event = require('event')
+local memory = require('memory')
+local packets = require('packets')
 local shared = require('shared')
 
 account_data = shared.new('account_data')
@@ -36,7 +36,6 @@ local handle_00A = function(p)
         data.server = info.server
         data.name = info.name
         data.id = info.id
-        print(info.server, info.name, info.id)
 
         login_event:trigger()
     end)
@@ -58,11 +57,11 @@ local handle_00B = function(p)
     end)
 end
 
-packets.incoming.register(0x00A, handle_00A)
-packets.incoming.register(0x00B, handle_00B)
+packets.incoming[0x00A]:register(handle_00A)
+packets.incoming[0x00B]:register(handle_00B)
 
-local last_00A = packets.incoming.last(0x00A)
-local last_00B = packets.incoming.last(0x00B)
+local last_00A = packets.incoming[0x00A].last
+local last_00B = packets.incoming[0x00B].last
 
 if last_00A then
     handle_00A(last_00A)
