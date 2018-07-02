@@ -1,5 +1,5 @@
-require('math')
-require('string')
+local math = require('math')
+local string = require('string')
 local ui = require('ui')
 
 --local pos = { x = 150, y = 60}
